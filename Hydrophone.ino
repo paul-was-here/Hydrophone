@@ -1,5 +1,3 @@
-// basic code for acquisition of analog data from EMG and conversion to readable voltage value
-// no additional data processing
 #include <math.h>
 
 void setup() {
