@@ -1,4 +1,5 @@
 import serial
+import struct
 import time
 import datetime
 import matplotlib
@@ -18,18 +19,13 @@ def read():
     arduino=ardInit()
     dataArray = []
 
-    #reads each sample data into an array
     while True:
-        if arduino.in_waiting:
-            try:
-                val = float(arduino.readline().decode('utf-8').strip())
-                dataArray.append(val)
-                if len(dataArray) > 10000:
-                    print("done")
-                    break
-            except ValueError:
-                print("value error")
-                break
+        val = arduino.read(2)
+        upkdval = struct.unpack('<h',val)[0]
+        dataArray.append(upkdval)
+        if len(dataArray) > 10000: #determines length of recording based on data points recorded
+            break
+
     return(dataArray)
 
 def wave():
@@ -48,7 +44,7 @@ def wave():
     plt.show()
 
     samples = np.array(data)
-    s_rate = 2000 #unsure what the sampling rate is here... i've been trying to maximize the sampling rate to no avail.
+    s_rate = 2500 #unsure what the exact sampling rate is here
     out_f = '/users/paulkullmann/Desktop/'+str(datetime.datetime.now())+'.wav'
     wavf.write(out_f,s_rate,samples.astype(np.float32))
 
