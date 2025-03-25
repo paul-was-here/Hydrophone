@@ -18,7 +18,6 @@ def ardInit():
 def read():
     arduino=ardInit()
     dataArray = []
-
     while True:
         val = arduino.read(2)
         upkdval = struct.unpack('<h',val)[0]
@@ -44,7 +43,7 @@ def wave():
     plt.show()
 
     samples = np.array(data)
-    s_rate = 2500 #unsure what the exact sampling rate is here
+    s_rate = 2000 #unsure what the exact sampling rate is here
     out_f = '/users/paulkullmann/Desktop/'+str(datetime.datetime.now())+'.wav'
     wavf.write(out_f,s_rate,samples.astype(np.float32))
 
