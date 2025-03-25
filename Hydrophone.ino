@@ -7,8 +7,8 @@ void setup() {
 }
 
 void loop() {
-  float sensorValue = analogRead(A1);
-  float voltageValue = sensorValue*5.00/1023.00-2.5;
-  Serial.println(voltageValue);
-  delayMicroseconds(8);
+  int sensorValue = analogRead(A1);
+  int voltageValue = ((sensorValue*5000L) / 1023) - 2500;
+  Serial.write((uint8_t*)&voltageValue, sizeof(voltageValue));
+  delayMicroseconds(200);
 }
